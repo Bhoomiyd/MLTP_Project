@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Prediction App</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f4f6ff;
+            border-radius: 8px;
+        }
+
+        .error {
+            margin-top: 15px;
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🌦 Weather Predictor</h1>
+    <p>Enter real-world values</p>
+
+    <form method="POST" onsubmit="return validateForm()">
+        <input type="number" step="any" name="humidity" id="humidity"
+               placeholder="Humidity (%)" min="0" max="100" required>
+
+        <input type="number" step="any" name="wind" id="wind"
+               placeholder="Wind Speed (km/h)" min="0" max="150" required>
+
+        <input type="number" step="any" name="pressure" id="pressure"
+               placeholder="Pressure (hPa)" min="950" max="1050" required>
+
+        <button type="submit">Predict Temperature</button>
+    </form>
+
+    <div id="error" class="error"></div>
+
+    {% if prediction is not none %}
+        <div class="result">
+            🌡 Predicted Temperature: <b>{{ prediction }} °C</b>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function validateForm() {
+    let h = document.getElementById("humidity").value;
+    let w = document.getElementById("wind").value;
+    let p = document.getElementById("pressure").value;
+    let error = document.getElementById("error");
+
+    if (h < 0 || h > 100) {
+        error.innerText = "Humidity must be between 0 and 100";
+        return false;
+    }
+
+    if (w < 0 || w > 150) {
+        error.innerText = "Wind speed must be between 0 and 150 km/h";
+        return false;
+    }
+
+    if (p < 950 || p > 1050) {
+        error.innerText = "Pressure must be between 950 and 1050 hPa";
+        return false;
+    }
+
+    error.innerText = "";
+    return true;
+}
+</script>
+
+</body>
+</html>
